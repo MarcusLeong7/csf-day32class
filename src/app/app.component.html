@@ -1,0 +1,89 @@
+<h1>Purchase Order</h1>
+
+<form [formGroup]="form" (submit)="processForm()">
+  <table>
+    <tr>
+      <td>Name:</td>
+      <td>
+          <input type ="text" formControlName="name"
+                 [ngClass]="{'error': !isCtrlValid('name')}">
+    <!-- Valid: {{ form.get('name')?.valid }}-->
+      </td>
+    </tr>
+    <tr>
+      <td>Address:</td>
+      <td>
+        <input type ="text" size="50" formControlName="address"
+               [ngClass]="{'error': !isCtrlValid('address')}">
+    <!-- Valid: {{ form.get('address')?.valid }}-->
+      </td>
+    </tr>
+    <tr>
+      <td>Email:</td>
+      <td>
+        <input type ="email" formControlName="email"
+               [ngClass]="{'error': !isCtrlValid('email')}">
+    <!-- Valid: {{ form.get('email')?.valid }}-->
+      </td>
+    </tr>
+    <tr>
+      <td>Delivery Date:</td>
+      <td>
+        <input type ="date" formControlName="deliveryDate"
+               [ngClass]="{'error': !isCtrlValid('deliveryDate')}">
+    <!-- Valid: {{ form.get('deliveryDate')?.valid }}-->
+      </td>
+    </tr>
+    <tr>
+      <td>Rush:</td>
+      <td>
+        <input type ="checkbox" formControlName="rush">
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><button type="submit" [disabled]=invalid()>Place Order</button> </td>
+      <td><button type="button" (click)="addLineItem()">Add Line Item</button> </td>
+    </tr>
+  </table>
+
+  <hr>
+
+  @if (lineItems.controls.length <=0){
+    <h3> You have no items in your cart!</h3>
+  } @else {
+    <table border="1">
+    <thead>
+    <tr>
+      <th>Index:</th>
+      <th>Item Name:</th>
+      <th>Quantity:</th>
+      <th>Unit Price</th>
+      <th>Remove Item:</th>
+    </tr>
+    </thead>
+    <tbody formArrayName="lineItems">
+    <!-- lineItems.controls give an array of FormGroup(LineItem) instances -->
+    <!-- idx stores current iteration index; Use for binding the FormGroup inside table row-->
+    <!-- tracking optimizes performance by ensuring only modified rows are updated-->
+    @for ( lineItem of lineItems.controls;let idx = $index; track lineItem){
+      <tr [formGroupName]="idx">
+        <td>{{idx}}</td>
+        <td>
+          <input type="text" size="20" placeholder="Item Name" formControlName="itemName">
+        </td>
+        <td>
+          <input type="number" placeholder="e.g 1.0" formControlName="quantity">
+        </td>
+        <td>
+          <input type="number" placeholder="e.g 0.1" formControlName="unitPrice">
+        </td>
+        <td>
+          <button type="button" (click)="deleteLineItem(idx)">X</button>
+        </td>
+      </tr>
+    }
+    </tbody>
+  </table>
+  }
+</form>
