@@ -70,13 +70,17 @@
       <tr [formGroupName]="idx">
         <td>{{idx}}</td>
         <td>
-          <input type="text" size="20" placeholder="Item Name" formControlName="itemName">
+          <input type="text" size="20" placeholder="Item Name" formControlName="itemName"
+                 [ngClass]="{'error': !isLineItemValid('itemName',idx)}">
+
         </td>
         <td>
-          <input type="number" placeholder="e.g 1.0" formControlName="quantity">
+          <input type="number" placeholder="e.g 1.0" formControlName="quantity"
+                 [ngClass]="{'error': !isLineItemValid('quantity',idx)}">
         </td>
         <td>
-          <input type="number" placeholder="e.g 0.1" formControlName="unitPrice">
+          <input type="number" placeholder="e.g 0.1" formControlName="unitPrice"
+                 [ngClass]="{'error': !isLineItemValid('unitPrice',idx)}">
         </td>
         <td>
           <button type="button" (click)="deleteLineItem(idx)">X</button>

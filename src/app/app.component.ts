@@ -9,7 +9,6 @@ import {PurchaseOrder} from './models';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'day32class';
 
   // Dependency Injection to create an instance of FormBuilder
   private fb = inject(FormBuilder);
@@ -34,6 +33,15 @@ export class AppComponent {
     return !this.form.get(ctrlName)?.invalid;
   }
 
+  // ?: is for optional
+  protected isLineItemValid(ctrlName: string, index?: number):boolean {
+    if (index !== undefined) {
+      return !this.lineItems.at(index).get(ctrlName)?.invalid;
+    }
+    return !this.form.get(ctrlName)?.invalid;
+  }
+
+
   // Form Group is initialized here
   ngOnInit() {
     console.info('>>> ngOnInit()');
@@ -57,7 +65,6 @@ export class AppComponent {
   // Process Form
   protected processForm() {
     const values: PurchaseOrder = this.form.value;
-
     console.info('>>> Processing Form',values);
     this.form.reset();
   }
